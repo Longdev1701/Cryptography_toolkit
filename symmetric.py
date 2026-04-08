@@ -3,19 +3,13 @@ from utils import generate_key,pad_data,unpad_data
 
 class des:
     def encryption(data, key):
-        haveKey = True
         key = key.encode()
-        if(key == ""):
-            key = generate_key(8)
-            haveKey = False
-
         cipher = DES.new(key, DES.MODE_CBC)
         iv = cipher.iv
-
         padded_data = pad_data(data.encode(),DES.block_size)
         cipher_text = cipher.encrypt(padded_data)
 
-        return iv + cipher_text + ((b" " + key) if haveKey is not True else b"")
+        return iv + cipher_text
     
     def decryption(data,key,iv):
         decipher = DES.new(key, DES.MODE_CBC, iv)
