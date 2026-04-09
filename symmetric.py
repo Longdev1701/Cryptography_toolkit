@@ -62,6 +62,5 @@ class aes:
     
 # a = aes.encryption("Longlatoi1701","longlato1701@@@@")  
 # print(a[:16])
-
 # b = aes.decryption(a[16:],"longlato1701@@@@".encode(),a[:16])
 # print(b)
