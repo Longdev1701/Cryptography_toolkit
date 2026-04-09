@@ -20,11 +20,8 @@ class des:
 
 # a = des.encryption("Longlatoi1701@","longlato")
 # print(a)
-
-# #cipher_text, key = a.split(b" ")
 # cipher_text = a[8:]
 # iv = a[:8]
-
 # b = des.decryption(cipher_text,"longlato".encode(), iv)
 # print(b)
 
@@ -45,7 +42,6 @@ class triple_des:
 
 # a = triple_des.encryption("Longlatoi1701","longlato1701@@@@")  
 # print(a[:8])
-
 # b = triple_des.decryption(a[8:],"longlato1701@@@@".encode(),a[:8])
 # print(b)
 
@@ -66,6 +62,5 @@ class aes:
     
 # a = aes.encryption("Longlatoi1701","longlato1701@@@@")  
 # print(a[:16])
-
 # b = aes.decryption(a[16:],"longlato1701@@@@".encode(),a[:16])
 # print(b)
