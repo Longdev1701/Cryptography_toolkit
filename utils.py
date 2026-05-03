@@ -1,30 +1,35 @@
 import base64
-from Crypto.Util.Padding import pad, unpad
-from Crypto.Random import get_random_bytes
+from Crypto.Cipher import DES3
 
-def validate_aes_key(key: bytes):
-    return len(key) in [16, 24, 32]
+def lay_size(loai):
+    if loai == "DES": return 8
+    if loai == "3DES": return 24
+    if loai == "AES": return 16
+    return None
 
-def validate_des_key(key: bytes):
-    return len(key) == 8
+def check_khoa(k_bytes, loai):
+    sz = lay_size(loai)
+    if len(k_bytes) != sz:
+        return None, f"Key must be exactly {sz} bytes."
 
-def encode_base64(data: bytes):
-    return base64.b64encode(data).decode()
+    if loai == "3DES":
+        try:
+            k_bytes = DES3.adjust_key_parity(k_bytes)
+        except ValueError as e:
+            return None, f"Invalid 3DES key: {e}"
 
-def decode_base64(data: str):
-    return base64.b64decode(data.encode())
+    return k_bytes, None
 
-def pad_data(data: bytes, block_size: int):
-    return pad(data, block_size)
+def nhap_key_chu(loai):
+    sz = lay_size(loai)
+    chuoi = input(f"Enter secret key ({sz} characters): ")
+    kb = chuoi.encode("utf-8")
+    return check_khoa(kb, loai)
 
-def unpad_data(data: bytes, block_size: int):
-    return unpad(data, block_size)
-
-def generate_key(length: int):
-    return get_random_bytes(length)
-
-def get_input(prompt):
-    return input(prompt).strip()
-
-def print_error(msg):
-    print(f"[ERROR] {msg}")
+def nhap_key_b64(loai):
+    chuoi = input("Enter key (Base64): ").strip()
+    try:
+        kb = base64.b64decode(chuoi)
+    except Exception:
+        return None, "Invalid Base64 key."
+    return check_khoa(kb, loai)
